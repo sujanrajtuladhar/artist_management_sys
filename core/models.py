@@ -88,7 +88,7 @@ class Music(models.Model):
     artist_relation = models.ForeignKey(
         Artist, 
         related_name='music', 
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
         help_text=_('Artist associated with the music'))
     title = models.CharField(max_length=255)
     album_name = models.CharField(max_length=255)
