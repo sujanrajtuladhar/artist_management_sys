@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+  <div class="col">
+    <a href="{% url 'core:create_user' %}">
+      <button class="btn btn-primary">Add User</button>
+    </a>
+    <h1>User List</h1>
+    <table class="table table-responsive">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Email</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Phone</th>
+          <th>Address</th>
+          <th>Gender</th>
+          <th>Role Type</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user in users %}
+        <tr>
+          <td>{{ user.id }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.first_name }}</td>
+          <td>{{ user.last_name }}</td>
+          <td>{{ user.phone }}</td>
+          <td>{{ user.address }}</td>
+          <td>
+            {% if user.gender == 'm' %}
+            Male
+            {% else %}
+            Female
+            {% endif %}
+          </td>
+          <td>{{ user.role_type }}</td>
+          <td>
+            <a href="{% url 'core:update_user' user.id %}">
+              <button class="btn btn-warning">Update</button>
+            </a>
+            <a href="{% url 'core:delete_user' user.id %}">
+              <button class="btn btn-danger">Delete</button>
+            </a>
+        </tr>
+        {% endfor %}
+        <!-- pagination ui with tr -->
+        <tr>
+          <td colspan="5">
+            <div class="btn-group">
+              {% if prev_page %}
+              <a href="{% url 'core:user_list' %}?page={{prev_page}}" class="btn btn-warning mx-1" title="prev"><<</a>
+              {% endif %}
+              {% for i in page_range %}
+              {% if i == page %}
+              <button class="btn btn-secondary mx-1" disabled>{{i}}</button>
+              {% else %}
+              <a href="{% url 'core:user_list' %}?page={{i}}" class="btn btn-primary mx-1">{{i}}</a>
+              {% endif %}
+              {% endfor %}
+              {% if next_page %}
+              <a href="{% url 'core:user_list' %}?page={{next_page}}" class="btn btn-warning mx-1" title="next">>></a>
+              {% endif %}
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+{% endblock %}

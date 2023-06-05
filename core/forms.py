@@ -23,3 +23,14 @@ class UserForm(forms.Form):
 
         if password and confirm_password and password != confirm_password:
             raise forms.ValidationError("Passwords do not match.")
+        
+
+class UserUpdateForm(forms.Form):
+    first_name = forms.CharField(max_length=50)
+    last_name = forms.CharField(max_length=50, required=False)
+    email = forms.EmailField()
+    phone = forms.CharField(max_length=15, required=False)
+    dob = forms.DateField(required=False)
+    gender = forms.ChoiceField(choices=GENDER_CHOICES)
+    address = forms.CharField(widget=forms.Textarea, required=False)
+    role_type = forms.ChoiceField(choices=ROLE_TYPE_CHOICES)
