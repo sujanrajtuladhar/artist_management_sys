@@ -1,3 +1,54 @@
+from django.contrib.auth.models import (
+    AbstractBaseUser, 
+    PermissionsMixin)
 from django.db import models
+from django.utils.translation import gettext_lazy as _
+
+from .constants import (
+    GENDER_CHOICES, 
+    GENRE_CHOICES, 
+    ROLE_TYPE_CHOICES)
+from .managers import UserManager
 
 # Create your models here.
+
+
+class User(AbstractBaseUser, PermissionsMixin):
+    first_name = models.CharField(
+        max_length=50, help_text=_('Enter the first name'))
+    last_name = models.CharField(
+        max_length=50, null=True, blank=True, help_text=_('Enter the last name'))
+    email = models.EmailField(
+        unique=True, help_text=_('Enter the email address'))
+    phone = models.CharField(
+        max_length=15, null=True, blank=True, help_text=_('Enter the phone number'))
+    dob = models.DateField(
+        null=True, blank=True, help_text=_('Enter the date of birth'))
+    gender = models.CharField(
+        max_length=1, choices=GENDER_CHOICES, help_text=_('Select the gender'))
+    address = models.TextField(
+        null=True, blank=True, help_text=_('Enter the address'))
+    role_type = models.CharField(
+        max_length=14, choices=ROLE_TYPE_CHOICES, help_text=_('Select the role type'))
+
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True)
+
+    # Specify the email field as the username field
+    USERNAME_FIELD = 'email'
+    # Add the required fields for the create_user() method
+    REQUIRED_FIELDS = ['first_name', 'last_name', 'phone', 'dob', 'gender', 'address', 'role_type']
+
+    # # Add the is_staff and is_superuser fields
+    is_staff = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
+
+    objects = UserManager()
+
+    class Meta:
+        db_table = 'user'
+        verbose_name = _('user')
+        verbose_name_plural = _('users')
+
+    def __str__(self):
+        return self.email
