@@ -24,6 +24,11 @@
             <li class="nav-item active">
               <a class="nav-link" href="{% url 'core:dashboard' %}">Home <span class="sr-only">(current)</span></a>
             </li>
+            {% if request.user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'core:logout' %}">Logout</a>
+            </li>
+            {% endif %}
           </ul>
           <div class="form-inline my-2 my-lg-0">
             <h6 class="mr-sm-2" >{{request.user}}</h6>
