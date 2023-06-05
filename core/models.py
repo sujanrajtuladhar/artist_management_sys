@@ -52,3 +52,33 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+    
+
+class Artist(models.Model):
+    user = models.OneToOneField(
+        User, on_delete=models.SET_NULL, null=True, help_text='User associated with the artist')
+
+    name = models.CharField(
+        max_length=255, help_text=_('Artist name'))
+    dob = models.DateField(
+        null=True, blank=True, 
+        help_text=_('Date of birth'))
+    gender = models.CharField(
+        max_length=1, choices=GENDER_CHOICES, 
+        help_text=_('Gender'))
+    address = models.TextField(
+        null=True, blank=True, 
+        help_text=_('Artist address'))
+    first_release_year = models.DateField(
+        help_text=_('First release year')
+    no_of_albums_released = models.PositiveIntegerField(
+        help_text=_('Number of albums released')
+    created_at = models.DateTimeField(
+        auto_now_add=True, null=True, 
+        help_text=_('Creation timestamp')
+    updated_at = models.DateTimeField(
+        auto_now=True, null=True, 
+        help_text=_('Last update timestamp'))
+
+    def __str__(self) -> str:
+        return self.name
