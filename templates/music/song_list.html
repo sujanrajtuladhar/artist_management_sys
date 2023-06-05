@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+  <div class="col">
+    <a href="{% url 'core:create_song' artist_id=artist_id %}">
+      <button class="btn btn-primary">Add Songs</button>
+    </a>
+    <h1>Songs List</h1>
+    <table class="table table-responsive">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>title</th>
+          <th>Album Name</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for song in songs %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ song.title }}</td>
+          <td>{{ song.album_name }}</td>
+          <td>
+            <a href="{% url 'core:update_song' artist_id=artist_id song_id=song.id %}">
+              <button class="btn btn-warning">Update</button>
+            </a>
+            <a href="{% url 'core:delete_song' artist_id=artist_id song_id=song.id %}">
+              <button class="btn btn-danger">Delete</button>
+            </a>
+        </tr>
+        {% endfor %}
+        <!-- pagination ui with tr -->
+        <tr>
+          <td colspan="5">
+            <div class="btn-group">
+              {% if prev_page %}
+              <a href="{% url 'core:song_list' %}?page={{prev_page}}" class="btn btn-warning mx-1" title="prev"><<</a>
+              {% endif %}
+              {% for i in page_range %}
+              {% if i == page %}
+              <button class="btn btn-secondary mx-1" disabled>{{i}}</button>
+              {% else %}
+              <a href="{% url 'core:song_list' %}?page={{i}}" class="btn btn-primary mx-1">{{i}}</a>
+              {% endif %}
+              {% endfor %}
+              {% if next_page %}
+              <a href="{% url 'core:song_list' %}?page={{next_page}}" class="btn btn-warning mx-1" title="next">>></a>
+              {% endif %}
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+{% endblock %}

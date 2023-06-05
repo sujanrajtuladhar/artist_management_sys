@@ -26,8 +26,16 @@
             </li>
             {% if request.user.is_authenticated %}
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'core:user_list' %}">Users</a>
-              </li>
+              <a class="nav-link" href="{% url 'core:user_list' %}">Users</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'core:artist_list' %}">Artist</a>
+            </li>
+            {% if request.user.role_type == 'artist' %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'core:song_list' request.user.id %}">My Songs ({{request.user.id}})</a>
+            </li>
+            {% endif %}
             <li class="nav-item">
               <a class="nav-link" href="{% url 'core:logout' %}">Logout</a>
             </li>

@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+  <div class="col">
+    <a href="{% url 'core:create_artist' %}">
+      <button class="btn btn-primary">Add Artist</button>
+    </a>
+    <a href="{% url 'core:import_artist_csv' %}">
+      <button class="btn btn-primary">Import CSV</button>
+    </a>
+    <a href="{% url 'core:export_artist_csv' %}">
+      <button class="btn btn-primary">Export CSV</button>
+    </a>
+    <h1>Artist List</h1>
+    <table class="table table-responsive">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>DOB</th>
+          <th>Gender</th>
+          <th>Address</th>
+          <th>First Release Year</th>
+          <th>Albums released</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for artist in artists %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ artist.name }}</td>
+          <td>{{ artist.dob }}</td>
+          <td>
+            {% if artist.gender == 'm' %}
+            Male
+            {% else %}
+            Female
+            {% endif %}
+          </td>
+          <td>{{ artist.address }}</td>
+          <td>{{ artist.first_release_year }}</td>
+          <td>{{ artist.no_of_albums_released }}</td>
+          <td>
+            <a href="{% url 'core:song_list' artist.id %}">
+              <button class="btn btn-warning">Song List</button>
+            </a>
+            <a href="{% url 'core:update_artist' artist.id %}">
+              <button class="btn btn-warning">Update</button>
+            </a>
+            <a href="{% url 'core:delete_artist' artist.id %}">
+              <button class="btn btn-danger">Delete</button>
+            </a>
+        </tr>
+        {% endfor %}
+        <!-- pagination ui with tr -->
+        <tr>
+          <td colspan="5">
+            <div class="btn-group">
+              {% if prev_page %}
+              <a href="{% url 'core:artist_list' %}?page={{prev_page}}" class="btn btn-warning mx-1" title="prev"><<</a>
+              {% endif %}
+              {% for i in page_range %}
+              {% if i == page %}
+              <button class="btn btn-secondary mx-1" disabled>{{i}}</button>
+              {% else %}
+              <a href="{% url 'core:artist_list' %}?page={{i}}" class="btn btn-primary mx-1">{{i}}</a>
+              {% endif %}
+              {% endfor %}
+              {% if next_page %}
+              <a href="{% url 'core:artist_list' %}?page={{next_page}}" class="btn btn-warning mx-1" title="next">>></a>
+              {% endif %}
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+{% endblock %}
