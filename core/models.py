@@ -70,12 +70,12 @@ class Artist(models.Model):
         null=True, blank=True, 
         help_text=_('Artist address'))
     first_release_year = models.DateField(
-        help_text=_('First release year')
+        help_text=_('First release year'))
     no_of_albums_released = models.PositiveIntegerField(
-        help_text=_('Number of albums released')
+        help_text=_('Number of albums released'))
     created_at = models.DateTimeField(
         auto_now_add=True, null=True, 
-        help_text=_('Creation timestamp')
+        help_text=_('Creation timestamp'))
     updated_at = models.DateTimeField(
         auto_now=True, null=True, 
         help_text=_('Last update timestamp'))
