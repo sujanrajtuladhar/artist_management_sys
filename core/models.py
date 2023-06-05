@@ -82,3 +82,19 @@ class Artist(models.Model):
 
     def __str__(self) -> str:
         return self.name
+
+
+class Music(models.Model):
+    artist_relation = models.ForeignKey(
+        Artist, 
+        related_name='music', 
+        on_delete=models.CASCADE
+        help_text=_('Artist associated with the music'))
+    title = models.CharField(max_length=255)
+    album_name = models.CharField(max_length=255)
+    genre = models.CharField(max_length=7, choices=GENRE_CHOICES)
+    created_at = models.DateTimeField(auto_now_add=True, auto_now=False, null=True)
+    updated_at = models.DateTimeField(auto_now_add=False, auto_now=True, null=True)
+
+    def __str__(self) -> str:
+        return self.title
